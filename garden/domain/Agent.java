@@ -1,10 +1,7 @@
 package domain;
-
 import java.awt.Color;
 
-
 public abstract class Agent {
-
     public final static char UNKNOWN = 'u', ALIVE = 'a', DEAD = 'd';
     protected char state;
     private int time;
@@ -17,14 +14,12 @@ public abstract class Agent {
         time = 0;
     }
 
-
     /**
      * The agent turns one life span old
      */
     protected void turn() {
         time++;
     }
-
 
     /**
      * The agent moves
@@ -38,6 +33,14 @@ public abstract class Agent {
      */
     public final int getTime() {
         return time;
+    }
+
+    /**
+     *
+     * @param time set time
+     */
+    public void setTime (int time) {
+        this.time = time;
     }
 
     /**

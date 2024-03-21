@@ -28,9 +28,9 @@ public class Flower extends Agent implements Thing {
         this.row = row;
         this.column = column;
         nextState = Agent.ALIVE;
-        garden.setThing(row, column, (Thing) this);
         color = Color.red;
         this.name = name;
+        garden.setThing(row, column, this);
     }
 
     /**
@@ -71,9 +71,6 @@ public class Flower extends Agent implements Thing {
     }
 
 
-    public void move() {
-    }
-
     /**
      * The flower turns one life span old
      */
@@ -84,11 +81,13 @@ public class Flower extends Agent implements Thing {
                 color = Color.orange;
                 break;
             case 3:
+                color = Color.BLACK;
                 state = Agent.DEAD;
                 break;
             case 5:
                 state = Agent.ALIVE;
                 color = Color.red;
+                setTime(0);
                 break;
             default:
                 break;
@@ -100,14 +99,37 @@ public class Flower extends Agent implements Thing {
     }
 
     public void moveTo(int newRow, int newColumn) {
-        //Mueve la flor a la nueva posición
-        garden.setThing(row, column, this);
+        garden.setThing(row, column, null);
+        garden.setThing(newRow, newColumn, this);
         row = newRow;
         column = newColumn;
-
     }
 
-    protected int calculateDistance(int x1, int y1, int x2, int y2){
+    /**
+     * Calculate the position between two points.
+     *
+     * @param x1 The x-coordinate of the first point.
+     * @param y1 The y-coordinate of the first point.
+     * @param x2 The x-coordinate of the second point.
+     * @param y2 The y-coordinate of the second point.
+     * @return The calculated distance.
+     */
+    protected static int calculateDistance(int x1, int y1, int x2, int y2) {
         return (int) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    /**
+     * Check  if a position (row and column) within the garden grid is valid.
+     *
+     * @param newRow    The row to check
+     * @param newColumn The Column to check
+     * @return true if the position is valid, otherwise false
+     */
+    protected boolean isValidPosition(int newRow, int newColumn) {
+        return newRow >= 0 && newRow < garden.getLength() && newColumn >= 0 && newColumn < garden.getLength();
+    }
+
+    public void move() {
+
     }
 }

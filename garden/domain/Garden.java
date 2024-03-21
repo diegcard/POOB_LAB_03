@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Garden {
     static public int LENGTH = 40;
-    private Thing[][] garden;
+    private final Thing[][] garden;
 
     /**
      * Create a new garden
@@ -36,49 +36,51 @@ public class Garden {
     }
 
     /**
-     * Get the thing in the garden
+     * Get the thing in the garden.
      *
-     * @param r
-     * @param c
-     * @return
+     * @param r Row position.
+     * @param c Column Position.
+     * @return The Thing at the specified position, or null if nothing is present.
      */
     public Thing getThing(int r, int c) {
         return garden[r][c];
     }
 
     /**
-     * Set the thing in the garden
+     * Set the thing in the garden.
      *
-     * @param r
-     * @param c
-     * @param e
+     * @param r The row in the Garden.
+     * @param c The column in the Garden.
+     * @param e The Thing to set at the specified position.
      */
     public void setThing(int r, int c, Thing e) {
         garden[r][c] = e;
     }
 
     /**
-     * Get the things in the garden
+     * Performs a time step (tic-tac) for the entities within the garden grid.
      */
     public void someThings() {
-        Flower rose = new Flower(this, 10, 10, "rose");
-        Flower violet = new Flower(this, 15, 15, "violet");
+        new Flower(this, 10, 10, "rose");
+        new Flower(this, 15, 15, "violet");
 
-        Carnivorous venus = new Carnivorous(this, 20, 20, "venus");
-        Carnivorous sundeuos = new Carnivorous(this, 25, 25, "sundeuos");
+        new Carnivorous(this, 20, 20, "venus");
+        new Carnivorous(this, 10, 25, "sundeuos");
 
-        Sand sand = new Sand(this, 0, 39);
-        Sand sand2 = new Sand(this, 0, 38);
+        new Sand(this, 0, 39);
+        new Sand(this, 0, 38);
+
+        //New plant
+
+        new Cane(this, 20, 25, "Diego");
     }
 
-    /**
-     * Get the things in the garden
-     */
     public void ticTac() {
         for (int r = 0; r < LENGTH; r++) {
             for (int c = 0; c < LENGTH; c++) {
-                if (garden[r][c] != null) {
-                    garden[r][c].act();
+                Thing thing = garden[r][c];
+                if (thing != null) {
+                    thing.act();
                 }
             }
         }

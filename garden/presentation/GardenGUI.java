@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GardenGUI extends JFrame {
-    public static final int SIDE = 21;
+    public static final int SIDE = 18;
     public static final int SIZE = Garden.LENGTH + 1;
 
     private JButton buttonTicTac;
@@ -43,7 +43,6 @@ public class GardenGUI extends JFrame {
                         buttonTicTacAction();
                     }
                 });
-
     }
 
     private void buttonTicTacAction() {

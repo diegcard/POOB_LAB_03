@@ -1,26 +1,29 @@
 package domain;
 
-import java.awt.Color;
+
+import java.awt.*;
 
 /**
- * Write a description of class Carnivores here.
- *
- * @author Cardenas - Cardona
- * @version 1.0
+ * Cane is a plant that moves towards the sand, It is identified with the color green.
+ * 
+ * @author Diego Cardenas, Sebastian Cardona
+ * @version 1.0.0
  */
-public class Carnivorous extends Flower {
-    private static final Color CARNIVOROUS_COLOR = Color.BLUE;
+public class Cane extends Flower{
+    private static final Color CANE_COLOR = Color.green;
 
     /**
-     * Constructor for objects of class Carnivorous
+     * Create a new flower cane (<b>row,column</b>) in the garden <b>garden</b>.
+     * Every new flower is going to be alive in the following state.
      *
      * @param garden The garden
      * @param row    The row
      * @param column The column
+     * @param name   The name of plant
      */
-    public Carnivorous(Garden garden, int row, int column, String name) {
+    public Cane(Garden garden, int row, int column, String name) {
         super(garden, row, column, name);
-        this.color = CARNIVOROUS_COLOR;
+        this.color = CANE_COLOR;
     }
 
     /**
@@ -29,19 +32,26 @@ public class Carnivorous extends Flower {
     @Override
     public void act() {
         turn();
-        moveToNearestFlower();
+        if (getTime() > 30){
+            state = Agent.DEAD;
+            garden.setThing(row, column, null);
+        } else {
+            moveToNearestSand();
+        }
 
     }
 
-    private int[] findNearestFlower() {
+    private int[] findNearestSand() {
         int minDistance = Integer.MAX_VALUE;
         int[] nearestFlower = null;
         for (int r = 0; r < garden.getLength(); r++) {
             for (int c = 0; c < garden.getLength(); c++) {
                 Thing thing = garden.getThing(r, c);
-                if (thing instanceof Flower && !(thing instanceof Carnivorous) && !(thing instanceof Cane)) {
+                if (thing instanceof Sand) {
                     int distance = calculateDistance(row, column, r, c);
-                    if (distance < minDistance) {
+                    if (distance <= 1) {
+                        return new int[]{row, column};
+                    }else if (distance < minDistance) {
                         minDistance = distance;
                         nearestFlower = new int[]{r, c};
                     }
@@ -54,8 +64,8 @@ public class Carnivorous extends Flower {
     /**
      * Move the carnivorous to the nearest flower
      */
-    private void moveToNearestFlower() {
-        int[] nearestFlower = findNearestFlower();
+    private void moveToNearestSand() {
+        int[] nearestFlower = findNearestSand();
         if (nearestFlower != null) {
             int newRow = row;
             int newColumn = column;
@@ -63,7 +73,7 @@ public class Carnivorous extends Flower {
             for (int r = row - 1; r < row + 2; r++) {
                 for (int c = column - 1; c < column + 2; c++) {
                     int distance = calculateDistance(r, c, nearestFlower[0], nearestFlower[1]);
-                    boolean flag = isValidPosition(r, c) && ((garden.getThing(r, c) instanceof Flower) || garden.getThing(r, c) == null);
+                    boolean flag = isValidPosition(r, c) && ((garden.getThing(r, c) instanceof Sand) || garden.getThing(r, c) == null);
                     if (minDistance > distance && flag) {
                         minDistance = distance;
                         newRow = r;
