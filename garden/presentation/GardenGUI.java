@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GardenGUI extends JFrame {
-    public static final int SIDE = 18;
+    public static final int SIDE = 15;
     public static final int SIZE = Garden.LENGTH + 1;
 
     private JButton buttonTicTac;
@@ -84,7 +84,14 @@ class PhotoGarden extends JPanel {
             for (int c = 0; c < garden.getLength(); c++) {
                 if (garden.getThing(f, c) != null) {
                     g.setColor(garden.getThing(f, c).getColor());
-                    if (garden.getThing(f, c).shape() == Thing.FLOWER) {
+                    if (garden.getThing(f, c).shape() == Thing.ANT){
+                        g.drawOval(gui.SIDE*c+1,gui.SIDE*f+5,gui.SIDE-12,gui.SIDE-12);
+                        g.drawOval(gui.SIDE*c+gui.SIDE-15,gui.SIDE*f+gui.SIDE-10,gui.SIDE-5,gui.SIDE-12);
+                        if (garden.getThing(f, c).is()){
+                            g.fillOval(gui.SIDE*c+1,gui.SIDE*f+5,gui.SIDE-12,gui.SIDE-12);
+                            g.fillOval(gui.SIDE*c+gui.SIDE-15,gui.SIDE*f+gui.SIDE-10,gui.SIDE-5,gui.SIDE-12);
+                        }    
+                    }else if(garden.getThing(f, c).shape() == Thing.FLOWER) {
                         g.setColor(garden.getThing(f, c).getColor());
                         for (int i = 0; i < deltas.length; i++) {
                             g.drawOval(gui.SIDE * c + deltas[i][0], gui.SIDE * f + deltas[i][1], gui.SIDE / 3 - 1, gui.SIDE / 3 - 1);

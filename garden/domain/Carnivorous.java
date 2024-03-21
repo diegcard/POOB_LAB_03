@@ -39,7 +39,7 @@ public class Carnivorous extends Flower {
         for (int r = 0; r < garden.getLength(); r++) {
             for (int c = 0; c < garden.getLength(); c++) {
                 Thing thing = garden.getThing(r, c);
-                if (thing instanceof Flower && !(thing instanceof Carnivorous) && !(thing instanceof Cane)) {
+                if (thing instanceof Flower && !(thing instanceof Carnivorous)) {
                     int distance = calculateDistance(row, column, r, c);
                     if (distance < minDistance) {
                         minDistance = distance;

@@ -64,23 +64,31 @@ public class Garden {
         new Flower(this, 10, 10, "rose");
         new Flower(this, 15, 15, "violet");
 
-        new Carnivorous(this, 20, 20, "venus");
-        new Carnivorous(this, 10, 25, "sundeuos");
+        new Carnivorous(this, 30, 30, "venus");
+        new Carnivorous(this, 10, 5, "sundeuos");
 
-        new Sand(this, 0, 39);
-        new Sand(this, 0, 38);
+        new Sand(this, 0, 39, "tatacoa");
+        new Sand(this, 0, 38, "sahara");
 
         //New plant
 
         new Cane(this, 20, 25, "Diego");
+        new Cane(this, 8, 30, "Sebastian");
+        
+        // New Ant
+        new Ant(this, 7, 30, "Michael");
     }
 
     public void ticTac() {
+        boolean[][] visited = new boolean[LENGTH][LENGTH];
         for (int r = 0; r < LENGTH; r++) {
             for (int c = 0; c < LENGTH; c++) {
-                Thing thing = garden[r][c];
-                if (thing != null) {
-                    thing.act();
+                if (!visited[r][c]){
+                    Thing thing = garden[r][c];
+                    if (thing != null) {
+                        thing.act();
+                        visited[thing.getRow()][thing.getColumn()] = true;
+                    }
                 }
             }
         }

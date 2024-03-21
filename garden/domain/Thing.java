@@ -8,6 +8,7 @@ public interface Thing {
     public static final int ROUND = 1;
     public static final int SQUARE = 2;
     public static final int FLOWER = 3;
+    public static final int ANT = 4;
 
     /**
      * Defines the action to be performed by the thing during a time step.

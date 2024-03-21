@@ -13,7 +13,7 @@ public class Flower extends Agent implements Thing {
     protected Garden garden;
     protected int row, column;
     protected String name;
-
+    protected int ticTacCount1;
 
     /**
      * Create a new flower (<b>row,column</b>) in the garden <b>garden</b>.
@@ -30,9 +30,24 @@ public class Flower extends Agent implements Thing {
         nextState = Agent.ALIVE;
         color = Color.red;
         this.name = name;
-        garden.setThing(row, column, this);
+        garden.setThing(row, column,(Thing) this);
     }
 
+    /**Create a new Flower (<b>row,column</b>) in the garden <b>garden</b>.
+     * Every new Ant is going to be alive in the following state.
+     * @param garden 
+     * @param row 
+     * @param column 
+     */
+    public Flower(Garden garden,int row, int column){
+        this.garden = garden;
+        this.row=row;
+        this.column=column;
+        nextState=Agent.ALIVE;
+        garden.setThing(row,column,(Thing)this);  
+        color=Color.red;
+    }
+    
     /**
      * Returns the shape
      *
@@ -75,8 +90,7 @@ public class Flower extends Agent implements Thing {
      * The flower turns one life span old
      */
     public void act() {
-        turn();
-        switch (getTime()) {
+        switch (ticTacCount1) {
             case 1:
                 color = Color.orange;
                 break;
@@ -87,11 +101,12 @@ public class Flower extends Agent implements Thing {
             case 5:
                 state = Agent.ALIVE;
                 color = Color.red;
-                setTime(0);
+                ticTacCount1 = 0;
                 break;
             default:
                 break;
         }
+        ticTacCount1++;
     }
 
     public Garden getGarden() {
@@ -100,9 +115,13 @@ public class Flower extends Agent implements Thing {
 
     public void moveTo(int newRow, int newColumn) {
         garden.setThing(row, column, null);
-        garden.setThing(newRow, newColumn, this);
-        row = newRow;
-        column = newColumn;
+        if (garden.getThing(newRow,newColumn) instanceof Water){
+            this.state = Agent.DEAD;
+        }else{
+            garden.setThing(newRow, newColumn, this);
+            row = newRow;
+            column = newColumn;  
+        }
     }
 
     /**
@@ -129,7 +148,46 @@ public class Flower extends Agent implements Thing {
         return newRow >= 0 && newRow < garden.getLength() && newColumn >= 0 && newColumn < garden.getLength();
     }
 
+    private int randomMove(){
+        return (int) (Math.random() * 3) - 1;
+    }
+    
+    /**
+     * Sets the state of the Flower to DEAD.
+     */
+    public void kill(){
+        state = Agent.DEAD;
+    }
+    
     public void move() {
+        int newRow = row + randomMove();
+        int newColumn = column + randomMove();
 
+        newRow = Math.max(0, Math.min(newRow, garden.getLength() - 1));
+        newColumn = Math.max(0, Math.min(newColumn, garden.getLength() - 1));
+        
+        if (!(garden.getThing(newRow,newColumn) instanceof Water || garden.getThing(newRow,newColumn) == null)){
+            newRow = row; 
+            newColumn = column;
+        } 
+        garden.setThing(row, column, null);
+        if (garden.getThing(newRow,newColumn) instanceof Water){
+            kill();
+        }
+        else{
+            garden.setThing(newRow, newColumn, this);
+            setPosition(newRow,newColumn);
+        }
+    }
+    
+    /**
+     * Sets the position of the Flower to the specified row and column.
+     *
+     * @param newRow The new row for the Ant.
+     * @param newColumn The new column for the Ant.
+     */
+    public void setPosition(int newRow, int newColumn){
+        row = newRow;
+        column = newColumn;
     }
 }

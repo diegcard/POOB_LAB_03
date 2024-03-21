@@ -32,33 +32,27 @@ public class Cane extends Flower{
     @Override
     public void act() {
         turn();
-        if (getTime() > 30){
-            state = Agent.DEAD;
-            garden.setThing(row, column, null);
-        } else {
-            moveToNearestSand();
-        }
-
+        moveToNearestSand();
     }
 
     private int[] findNearestSand() {
         int minDistance = Integer.MAX_VALUE;
-        int[] nearestFlower = null;
+        int[] nearestStand = null;
         for (int r = 0; r < garden.getLength(); r++) {
             for (int c = 0; c < garden.getLength(); c++) {
                 Thing thing = garden.getThing(r, c);
                 if (thing instanceof Sand) {
                     int distance = calculateDistance(row, column, r, c);
-                    if (distance <= 1) {
+                    if (distance < 1) {
                         return new int[]{row, column};
                     }else if (distance < minDistance) {
                         minDistance = distance;
-                        nearestFlower = new int[]{r, c};
+                        nearestStand = new int[]{r, c};
                     }
                 }
             }
         }
-        return nearestFlower;
+        return nearestStand;
     }
 
     /**
@@ -73,7 +67,7 @@ public class Cane extends Flower{
             for (int r = row - 1; r < row + 2; r++) {
                 for (int c = column - 1; c < column + 2; c++) {
                     int distance = calculateDistance(r, c, nearestFlower[0], nearestFlower[1]);
-                    boolean flag = isValidPosition(r, c) && ((garden.getThing(r, c) instanceof Sand) || garden.getThing(r, c) == null);
+                    boolean flag = isValidPosition(r, c) && !(garden.getThing(r, c) instanceof Sand) && garden.getThing(r, c) == null;
                     if (minDistance > distance && flag) {
                         minDistance = distance;
                         newRow = r;
