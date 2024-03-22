@@ -3,10 +3,10 @@ package domain;
 import java.awt.Color;
 
 /**
- * Write a description of class Carnivores here.
+ * Carnivorous is a flower that go ahead and eat the rest of the flowers
  *
  * @author Cardenas - Cardona
- * @version 1.0
+ * @version 1.0.0
  */
 public class Carnivorous extends Flower {
     private static final Color CARNIVOROUS_COLOR = Color.BLUE;
@@ -18,7 +18,7 @@ public class Carnivorous extends Flower {
      * @param row    The row
      * @param column The column
      */
-    public Carnivorous(Garden garden, int row, int column, String name) {
+    public Carnivorous(Garden garden, int row, int column, String name){
         super(garden, row, column, name);
         this.color = CARNIVOROUS_COLOR;
     }
@@ -30,9 +30,9 @@ public class Carnivorous extends Flower {
     public void act() {
         turn();
         moveToNearestFlower();
-
     }
 
+    // find the nearest Flower from the carnivorous
     private int[] findNearestFlower() {
         int minDistance = Integer.MAX_VALUE;
         int[] nearestFlower = null;

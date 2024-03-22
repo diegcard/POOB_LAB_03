@@ -4,7 +4,8 @@ package domain;
 import java.awt.*;
 
 /**
- * Cane is a plant that moves towards the sand, It is identified with the color green.
+ * Cane is a plant that moves towards the sand,When it is next to the sand, it prevents
+ * it from losing more color and nourishes it so that it recovers its color., It is identified with the color green.
  * 
  * @author Diego Cardenas, Sebastian Cardona
  * @version 1.0.0
@@ -35,6 +36,7 @@ public class Cane extends Flower{
         moveToNearestSand();
     }
 
+    // find the nearest sand from the curretn position of the cane flower
     private int[] findNearestSand() {
         int minDistance = Integer.MAX_VALUE;
         int[] nearestStand = null;
@@ -56,7 +58,7 @@ public class Cane extends Flower{
     }
 
     /**
-     * Move the carnivorous to the nearest flower
+     * Move the Cane to the nearest Sand box
      */
     private void moveToNearestSand() {
         int[] nearestFlower = findNearestSand();

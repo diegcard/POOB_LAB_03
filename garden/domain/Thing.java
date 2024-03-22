@@ -29,6 +29,11 @@ public interface Thing {
      */
     int getRow();
 
+    /**
+     * Every thing will be a shape in SQUARE for default
+     * 
+     * @return SQUARE
+     */
     default public int shape() {
         return SQUARE;
     }
@@ -40,8 +45,7 @@ public interface Thing {
      */
     default public Color getColor() {
         return Color.blue;
-    };
-
+    }
 
     /**
      * Checks if the thing is present.

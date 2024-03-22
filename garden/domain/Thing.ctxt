@@ -12,6 +12,7 @@ comment3.target=int\ getRow()
 comment3.text=\r\n\ Gets\ the\ row\ position\ of\ the\ thing\ in\ the\ garden\ grid.\r\n\r\n\ @return\ The\ row\ position\ of\ the\ thing.\r\n
 comment4.params=
 comment4.target=int\ shape()
+comment4.text=\r\n\ Every\ thing\ will\ be\ a\ shape\ in\ SQUARE\ for\ default\r\n\ \r\n\ @return\ SQUARE\r\n
 comment5.params=
 comment5.target=java.awt.Color\ getColor()
 comment5.text=\r\n\ Gets\ the\ color\ of\ the\ thing.\r\n\r\n\ @return\ The\ color\ of\ the\ thing,\ which\ is\ by\ default\ set\ to\ Color.blue.\r\n

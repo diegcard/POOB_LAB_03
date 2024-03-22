@@ -3,7 +3,7 @@ package domain;
 import java.awt.Color;
 import java.util.Arrays;
 
-public class Sand extends Agent implements Thing {
+public class Sand implements Thing {
     private Color color;
     private Garden garden;
     private int row, column;
@@ -26,30 +26,36 @@ public class Sand extends Agent implements Thing {
         garden.setThing(row, column, this);
         this.tictaccount =0;
     }
-
+    
+    
+    /**
+     * gets all Cane flowers of the sand
+     * 
+     * @returns the neighbors
+     */
     public Thing[] getNeighbors() {
-    Thing[] neighbors = new Thing[8];
-    int counter = 0;
-    int gardenLength = garden.getLength();
-    for (int i = row - 1; i <= row + 1; i++) {
-        for (int j = column - 1; j <= column + 1; j++) {
-            if (i == row && j == column) {
-                continue;
-            }
-            if (i >= 0 && i < gardenLength && j >= 0 && j < gardenLength) {
-                if (garden.getThing(i, j) instanceof Cane) {
+        Thing[] neighbors = new Thing[8];
+        int counter = 0;
+        int gardenLength = garden.getLength();
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = column - 1; j <= column + 1; j++) {
+                if (i == row && j == column) {
+                    continue;
+                }else if(i >= 0 && i < gardenLength && j >= 0 && j < gardenLength && garden.getThing(i, j) instanceof Cane) {
                     Thing cane = garden.getThing(i, j);
                     neighbors[counter] = cane;
+                } else {
+                    neighbors[counter] = null;
                 }
-            } else {
-                neighbors[counter] = null;
+                counter++;
             }
-            counter++;
         }
+        return neighbors;
     }
-    return neighbors;
-}
 
+    /**
+     * Execute an action
+     */
     @Override
     public void act() {
         if(tictaccount >100){
@@ -65,20 +71,33 @@ public class Sand extends Agent implements Thing {
         }
     }
 
+    /**
+     * Returns the column
+     *
+     * @return column
+     */
     @Override
     public int getColumn() {
         return column;
     }
 
+    /**
+     * Returns the row
+     *
+     * @return row
+     */
+    @Override
     public int getRow() {
         return row;
     }
 
+    /**
+     * Returns the color
+     *
+     * @return color
+     */
+    @Override
     public Color getColor() {
         return color;
-    }
-
-    public void move() {
-
     }
 }

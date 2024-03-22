@@ -8,12 +8,11 @@ import java.awt.Color;
  * <br>
  */
 public class Flower extends Agent implements Thing {
-    protected char nextState;
     protected Color color;
     protected Garden garden;
     protected int row, column;
     protected String name;
-    protected int ticTacCount1;
+    protected int ticTacCount1 = 0;
 
     /**
      * Create a new flower (<b>row,column</b>) in the garden <b>garden</b>.
@@ -27,25 +26,10 @@ public class Flower extends Agent implements Thing {
         this.garden = garden;
         this.row = row;
         this.column = column;
-        nextState = Agent.ALIVE;
         color = Color.red;
         this.name = name;
         garden.setThing(row, column,(Thing) this);
-    }
-
-    /**Create a new Flower (<b>row,column</b>) in the garden <b>garden</b>.
-     * Every new Ant is going to be alive in the following state.
-     * @param garden 
-     * @param row 
-     * @param column 
-     */
-    public Flower(Garden garden,int row, int column){
-        this.garden = garden;
-        this.row=row;
-        this.column=column;
-        nextState=Agent.ALIVE;
-        garden.setThing(row,column,(Thing)this);  
-        color=Color.red;
+        state = Agent.ALIVE;
     }
     
     /**
@@ -53,6 +37,7 @@ public class Flower extends Agent implements Thing {
      *
      * @return FLOWER
      */
+    @Override
     public final int shape() {
         return Thing.FLOWER;
     }
@@ -62,15 +47,17 @@ public class Flower extends Agent implements Thing {
      *
      * @return row
      */
+    @Override
     public final int getRow() {
         return row;
     }
 
     /**
-     * Returns tha column
+     * Returns the column
      *
      * @return column
      */
+    @Override
     public final int getColumn() {
         return column;
     }
@@ -81,15 +68,18 @@ public class Flower extends Agent implements Thing {
      *
      * @return color
      */
+    @Override
     public final Color getColor() {
         return color;
     }
 
 
     /**
-     * The flower turns one life span old
+     * The flower Execute an action
      */
+    @Override
     public void act() {
+        ticTacCount1++;
         switch (ticTacCount1) {
             case 1:
                 color = Color.orange;
@@ -106,21 +96,28 @@ public class Flower extends Agent implements Thing {
             default:
                 break;
         }
-        ticTacCount1++;
     }
 
+    /**
+     * gets the garden where the flower are
+     * @return garden
+     */
     public Garden getGarden() {
         return garden;
     }
 
+    /**
+     * move the flower to an specific place
+     * @param newRow
+     * @param newColumn
+     */
     public void moveTo(int newRow, int newColumn) {
         garden.setThing(row, column, null);
         if (garden.getThing(newRow,newColumn) instanceof Water){
             this.state = Agent.DEAD;
         }else{
             garden.setThing(newRow, newColumn, this);
-            row = newRow;
-            column = newColumn;  
+            setPosition(newRow,newColumn); 
         }
     }
 
@@ -148,31 +145,28 @@ public class Flower extends Agent implements Thing {
         return newRow >= 0 && newRow < garden.getLength() && newColumn >= 0 && newColumn < garden.getLength();
     }
 
+    //a random position to move the flower
     private int randomMove(){
         return (int) (Math.random() * 3) - 1;
     }
     
     /**
-     * Sets the state of the Flower to DEAD.
+     * move the flower to the random adyacent box
      */
-    public void kill(){
-        state = Agent.DEAD;
-    }
-    
+    @Override
     public void move() {
         int newRow = row + randomMove();
         int newColumn = column + randomMove();
 
         newRow = Math.max(0, Math.min(newRow, garden.getLength() - 1));
         newColumn = Math.max(0, Math.min(newColumn, garden.getLength() - 1));
-        
         if (!(garden.getThing(newRow,newColumn) instanceof Water || garden.getThing(newRow,newColumn) == null)){
             newRow = row; 
             newColumn = column;
         } 
         garden.setThing(row, column, null);
         if (garden.getThing(newRow,newColumn) instanceof Water){
-            kill();
+            state = Agent.DEAD;
         }
         else{
             garden.setThing(newRow, newColumn, this);
