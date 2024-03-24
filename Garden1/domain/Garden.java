@@ -80,7 +80,8 @@ public class Garden {
         new Cane(this, 20, 25, "Diego");
         new Cane(this, 8, 30, "Sebastian");
         // New Ant
-        new Ant(this, 15, 21, "Michael");
+        new Ant(this, 15, 21, "Diego");
+        new Ant(this, 39, 1, "Sebastian");
         // new Cell
         new Cell(this,15,20);
         new Cell(this,14,21);
@@ -88,7 +89,6 @@ public class Garden {
         //new conway
         //new Conway(this,15,21,"Pepe");
         new Conway(this,1,23,"Mary");
-        
         /*new Cell(this,17,21);
         new Cell(this,17,22);
         new Conway(this,18,21,"Mary");*/
